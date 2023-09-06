@@ -1,0 +1,112 @@
+﻿@using HocPhi.Models;
+@{
+    ViewBag.Title = "DoanhThu";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    bool _trangthai;
+    double tongdoanhthu = 0;
+}
+
+<h2>Thống Kê Doanh Thu</h2>
+<table id="dtBasicExample" class="table table-hover table-fixed" cellspacing="0" width="100%">
+    <thead class="thead-light">
+        <tr>
+            <th>Mã Biên Lai</th>
+            <th>Mã Hệ Học</th>
+            <th>Tên Lớp</th>
+            <th>Mã Học Sinh</th>
+            <th>Học Phí</th>
+            <th>Tiền Ăn 1 tháng</th>
+            <th>Ngày</th>
+            <th>Người Nộp</th>
+            <th>Số ngày vắng</th>
+            <th>Tổng Cộng</th>
+            <th>Trạng Thái</th>
+            <th>Thao Tác</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in ViewBag.Result)
+        {
+            HocPhiEntities db = new HocPhiEntities();
+            //   String getItem = item.HocSinh.MaHocSinh;
+            String get = item.HocSinh.MaHocSinh;
+
+            var ddanhlist = db.DiemDanhs
+                .Where(n => n.HocSinh == get)
+                .Where(n => n.TrangThaiDiemDanh == false).ToList();
+
+            int soluotddanh = 0;
+
+            foreach (var item3 in ddanhlist)
+            {
+                if (int.Parse(item3.NgayDiemDanh.ToString("MM")) < int.Parse(DateTime.Now.ToString("MM")))
+                {
+                    soluotddanh++;
+                }
+            }
+            if (item.TrangThai != null)
+            {
+                _trangthai = (bool)item.TrangThai;
+
+            }
+            else
+            {
+                _trangthai = false;
+            }
+
+
+            var ngaydky = @Convert.ToDateTime(item.HocSinh.NgayDangKy).ToString("MM");
+            var ngayhtai = @Convert.ToDateTime(DateTime.Now).ToString("MM");
+
+            int dky = int.Parse(ngaydky);
+            int htai = int.Parse(ngayhtai);
+            int tam = htai - dky;
+
+            int hientai = int.Parse(DateTime.Now.ToString("MM"));
+
+
+            var ddanh = db.DiemDanhs
+            .Where(n => n.HocSinh == get)
+            .Where(n => n.TrangThaiDiemDanh == true)
+            .Count();
+
+            double tienthang = item.TienAn1thang;
+            double tienhp = item.HocSinh.HeHoc.HocPhi;
+            double tong = tienhp + (tienthang - (item.TienAn1ngay * soluotddanh));
+            tongdoanhthu += tong;
+            //tongdoanhthu = tongdoanhthu + tong;
+            //42k
+            //    42 + 43
+            //    42 + 43 + 375
+            //var tongdt = db.BienLais.Count();
+            //var dt = item.tong;
+            //ViewBag.dt = dt.Count();
+
+
+            <tr>
+
+                <td>@item.MaBienLai</td>
+                <td>@item.HocSinh.HeHoc.MaHeHoc</td>
+                <td>@item.HocSinh.Lop.TenLop</td>
+                <td>@item.HocSinh.MaHocSinh</td>
+                <td>@item.HocSinh.HeHoc.HocPhi</td>
+                <td>@item.TienAn1thang</td>
+                <td> @Convert.ToDateTime(item.NgayNop).ToString("dd/MM/yyyy")</td>
+                <td>@item.NguoiNop</td>
+                <td>@soluotddanh</td>
+                <td>@tong</td>
+                <td>
+                    @Html.CheckBoxFor(modelItem => _trangthai)
+                </td>
+                <td>
+                    <a href="@Url.Action("PhieuThu","Admin",new {@mabienlai = item.MaBienLai})" class="btn btn-default"><em class="fas fa-eye"></em></a>
+
+                </td>
+
+            </tr>
+
+
+        }
+    </tbody>
+</table>
+<h4 class="text-center text-danger">Tổng : <strong>@String.Format("{0:#,##0} VNĐ", tongdoanhthu) </strong></h4>

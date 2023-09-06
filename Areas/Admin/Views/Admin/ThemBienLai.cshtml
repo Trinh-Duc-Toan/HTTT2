@@ -1,0 +1,82 @@
+﻿@model HocPhi.Models.BienLai
+
+@{
+    ViewBag.Title = "ThemBienLai";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<div class="row">
+    <div class="col-lg-11">
+
+        @using (Html.BeginForm("ThemBienLai", "Admin", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            <div class="col-lg-6" style="margin-left:250px;">
+                <div class="card" style="background:#e9e9e9">
+                    <div class="card-header">
+                        <strong>Thêm Biên Lai</strong>
+                    </div>
+                    <div class="card-body card-block">
+                        <div class="form-group">
+                            <label for="inputEmail4">Mã Biên Lai </label>
+                            @*<input name="txt_NewMaBienLai" class="form-control"/>*@
+                            @Html.EditorFor(model => model.MaBienLai, new { htmlAttributes = new { @readonly = "readonly", @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.MaBienLai, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group ">
+                            <label for="inputEmail4">Mã Học Sinh</label>
+                            @Html.DropDownList("txt_NewMaHocSinh", (IEnumerable<SelectListItem>)ViewBag.Ma_HS, "---Chọn---", new { @class = "form-control MaHocSinh" })
+
+                        </div>
+                        <div class="form-group ">
+                            <label for="inputPassword4">Người Nộp</label>
+                            <input name="txt_NewNguoiNop" class="form-control" />
+                        </div>
+
+                        <div class="form-group ">
+                            <label for="inputPassword4">Ngày Nộp</label>
+                            <input name="txt_NewNgayNop" class="form-control" type="date" />
+
+                        </div>
+                        <div class="form-group ">
+                            <label for="inputPassword4">Tiền Ăn (1 ngày)</label>
+                            <input name="txt_NewTienAn1ngay" class="form-control" value="50000"  />
+                        </div>
+                        <div class="form-group ">
+                            <label for="inputPassword4">Trạng thái thanh toán</label><br />
+                            <input type="radio"  name="txtTrangThai" value="True">
+                            <label>Có</label><br>
+                            <input type="radio"  name="txtTrangThai" value="False">
+                            <label>Không</label><br>
+                        </div>
+                        @*<div class="form-group ">
+                            <label for="inputPassword4">Tổng Cộng</label>
+                            <input name="tong" class="form-control"  readonly="readonly" />
+                        </div>*@
+                        <button style="float:right;" type="submit" class="btn btn-primary">Thêm</button>
+                    </div>
+                </div>
+            </div>
+        }
+
+    </div>
+
+</div>
+
+<style>
+    .form-group .form-control {
+        padding-left: 7px;
+    }
+</style>
+<script>
+        //$(document).ready(function () {
+        //    $(".MaHeHoc").change(function () {
+        //        $.get("/Admin/Admin/GetStateListhehoc_hocsinh", { MaHocSinh: $(".MaHeHoc").val() }, function (data) {
+        //            $(".MaHocSinh").empty();
+        //            $.each(data, function (index, row) {
+        //                $(".MaHocSinh").append("<option value='" + row.MaHocSinh + "'>" + row.TenHocSinh + "</option>")
+        //            });
+        //        });
+        //    })
+        //});
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js"></script>

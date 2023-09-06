@@ -1,0 +1,82 @@
+﻿@model IEnumerable<HocPhi.Models.HocSinh>
+
+@{
+    ViewBag.Title = "XemLop";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-lg-12" style="width:auto;">
+        <div class="table-responsive table--no-card m-b-40">
+            <table class="table table-hover table-fixed">
+                <thead class="thead-light">                  
+                    <tr>
+                        <th>STT</th>
+                        <th>Mã Lớp</th>
+                        <th>Tên Lớp</th>
+                        <th>Mã Học Sinh</th>
+                        <th>Tên Học Sinh</th>
+                        <th>Hệ Học</th>
+                        <th>Điện Thoại</th>
+                        <th>Tên Phụ Huynh</th>
+                        <th>
+                            <a onclick="window.print()" href="#" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="In"><em class="fas fa-print"></em></a>
+                        </th>
+                    </tr>
+
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        if (item.TrangThai == 0)
+                        {
+                            <tr>
+                                <td class="text-danger"></td>
+                                <td class="text-danger">@Html.DisplayFor(modelItem => item.MaLop)</td>
+                                <td class="text-danger">@Html.DisplayFor(modelItem => item.Lop.TenLop)</td>
+                                <td class="text-danger">@Html.DisplayFor(modelItem => item.MaHocSinh)</td>
+                                <td class="text-danger">@Html.DisplayFor(modelItem => item.TenHocSinh)</td>
+                                <td class="text-danger">@Html.DisplayFor(modelItem => item.HeHoc.TenHeHoc)</td>
+                                <td class="text-danger">@Html.DisplayFor(modelItem => item.DienThoai)</td>
+                                <td class="text-danger">@Html.DisplayFor(modelItem => item.TenPhuHuynh)</td>
+
+                            </tr>
+                        }
+                        else if(item.TrangThai == 1)
+                        {
+                            <tr>
+                                <td></td>
+                                <td>@Html.DisplayFor(modelItem => item.MaLop)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Lop.TenLop)</td>
+                                <td>@Html.DisplayFor(modelItem => item.MaHocSinh)</td>
+                                <td>@Html.DisplayFor(modelItem => item.TenHocSinh)</td>
+                                <td>@Html.DisplayFor(modelItem => item.HeHoc.TenHeHoc)</td>
+                                <td>@Html.DisplayFor(modelItem => item.DienThoai)</td>
+                                <td>@Html.DisplayFor(modelItem => item.TenPhuHuynh)</td>
+
+                            </tr>
+                        }
+
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<style type="text/css">
+    table {
+        width: 50%;
+      
+    }
+
+        table tr {
+            counter-increment: row-num;
+        }
+
+            table tr td:first-child::before {
+                content: counter(row-num) ;
+            }
+           
+</style>

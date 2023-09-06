@@ -1,0 +1,148 @@
+﻿@model IEnumerable<HocPhi.Models.DiemDanhViewModel>
+
+@{
+    ViewBag.Title = "LayDanhSachDiemDanh";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    bool _trangthai;
+}
+
+<h2>Danh Sách Điểm Danh</h2>
+
+<p>
+    @if((string)ViewBag.Operation == "create")
+    {
+        @Html.Hidden("Create");
+    }
+    else
+    {
+        @Html.Hidden("Edit");
+    }
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Tên Học Sinh
+        </th>
+        <th>
+            Giới Tính
+        </th>
+        <th>
+            Năm Sinh
+        </th>
+        <th>
+            Tên Phụ Huynh
+        </th>
+        <th>
+            Điện Thoại
+        </th>
+        <th>
+            Địa Chỉ
+        </th>
+        <th>
+           Chọn
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        if (item.TrangThaiDiemDanh != null)
+        {
+            _trangthai = (bool)item.TrangThaiDiemDanh;
+
+        }
+        else
+        {
+            _trangthai = false;
+        }
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.TenHocSinh)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.GioiTinh)
+        </td>
+        
+        <td> @Convert.ToDateTime(item.NamSinh).ToString("dd/MM/yyyy")</td>
+     
+
+        <td>
+            @Html.DisplayFor(modelItem => item.TenPhuHuynh)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DienThoai)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DiaChiLienHe)
+        </td>
+        <td>
+            @Html.CheckBoxFor(modelItem => _trangthai, htmlAttributes: new { @class = "statusDiemDanh" })
+        </td>
+        @Html.HiddenFor(modeItem => item.MaHocSinh, htmlAttributes: new { @class = "MaCuaHS" })
+
+    </tr>
+    }
+
+</table>
+
+<form id="sendform" action="/Admin/Admin/DiemDanhUpdate" method="post">
+    <input id="DiemDanhBtn" value="Điểm Danh" type="button" style="float:right; background-color:#808080; color:#ffffff; width:100px; height:50px " />
+</form>
+<script type="text/javascript">
+    $(function () {
+        var ListstatusFromDatabase = $(".statusDiemDanh").map(function () {
+            return $(this).is(':checked');
+        }).get();
+        var ListMaHS = $(".MaCuaHS").map(function () {
+            return $(this).val();
+        }).get();
+        var StatusEditArr = new Array();
+        var MaHsArr = new Array();
+        // check operation
+        var operation = null;
+        if ($('#Create').length)         // use this if you are using id to check
+        {
+             operation= 'create';
+        }
+        else operation = 'edit'
+        function addinputtoform(input, _name) {
+            $("<input />").attr("type", "hidden")
+                .attr("name", _name)
+                .attr("value", input)
+                .appendTo("#sendform");
+        };
+        $('#DiemDanhBtn').click(function (e) {
+            e.preventDefault();
+            var CurrentStatus = $(".statusDiemDanh").map(function () {
+                return $(this).is(':checked');
+            }).get();
+            var creatflag = false;
+            for (let i = 0; i < CurrentStatus.length; i++) {
+                if (ListstatusFromDatabase[i] != CurrentStatus[i]) {
+                    StatusEditArr.push(CurrentStatus[i]);
+                    MaHsArr.push(ListMaHS[i]);
+                }
+                if (CurrentStatus[i] == true) creatflag = true;
+            }
+            if (operation == 'edit') {
+                if (StatusEditArr.length > 0) {
+                    addinputtoform(StatusEditArr.toString(), "statuslist");
+                    addinputtoform(MaHsArr.toString(), "mahs");
+                    addinputtoform(operation, "operation");
+                    $("#sendform").unbind("submit").submit();
+
+                } else { alert('Không có học sinh nào bị điểm danh lại'); }
+               
+            }
+            else {
+                if (creatflag) {
+                    addinputtoform(CurrentStatus.toString(), 'statuslist');
+                    addinputtoform(ListMaHS.toString(), 'mahs');
+                    addinputtoform(operation, "operation");
+                    $("#sendform").unbind("submit").submit();
+                }
+                else alert("Không có học sinh nào điểm danh trong hôm nay?");
+            }
+            
+        });
+    });
+</script>

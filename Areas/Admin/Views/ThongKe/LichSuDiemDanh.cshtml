@@ -1,0 +1,75 @@
+﻿@model IEnumerable<HocPhi.Models.DiemDanhViewModel>
+
+@{ 
+    bool _trangthai;
+}
+
+
+    <table class="table">
+        <tr>
+            <th>
+                Tên Học Sinh
+            </th>
+            <th>
+                Giới Tính
+            </th>
+            <th>
+                Năm Sinh 
+            </th>
+            <th>
+              Tên Phụ Huynh
+            </th>
+            <th>
+                Điện Thoại
+            </th>
+            <th>
+                Địa Chỉ 
+            </th>
+            <th>
+                Điểm Danh
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            if (item.TrangThaiDiemDanh != null)
+            {
+                _trangthai = (bool)item.TrangThaiDiemDanh;
+
+            }
+            else
+            {
+                _trangthai = false;
+            }
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.TenHocSinh)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GioiTinh)
+            </td>
+            
+            <td> @Convert.ToDateTime(item.NamSinh).ToString("dd/MM/yyyy")</td>
+
+            
+            
+            <td>
+                @Html.DisplayFor(modelItem => item.TenPhuHuynh)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DienThoai)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DiaChiLienHe)
+            </td>
+            <td>
+                @Html.CheckBoxFor(modelItem => _trangthai, htmlAttributes: new { @class = "statusDiemDanh" })
+            </td>
+            @Html.HiddenFor(modeItem => item.MaHocSinh, htmlAttributes: new { @class = "MaCuaHS" })
+
+        </tr>
+        }
+
+ </table>
+
+

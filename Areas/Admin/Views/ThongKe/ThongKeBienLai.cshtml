@@ -1,0 +1,23 @@
+﻿
+@{
+    ViewBag.Title = "ThongKeBienLai";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    bool _trangthai;
+}
+<h2>Thống Kê Biên Lai</h2>
+
+@using (Html.BeginForm("KQ", "ThongKe", FormMethod.Post))
+{
+    <label>Chọn lớp </label>
+    @Html.DropDownList("TenLop", (IEnumerable<SelectListItem>)ViewBag.Lop_MaL, "Chọn 1 lớp")
+    <div class='input-group date' id='datetimepicker2'>
+        <label> Từ ngày </label>
+        <input type="date" class="form-control" name="NgayNop"style="max-width: 200px;margin:5px; " />
+   
+        <label> đến ngày </label>
+        <input type="date" class="form-control" name="NgayNopEnd" style="max-width: 200px;margin:5px; " />
+    </div>
+    <br />
+    <input type="submit" class="button" value="Xem Danh Sách" id="formbtn" />
+    @*</form>*@     
+}

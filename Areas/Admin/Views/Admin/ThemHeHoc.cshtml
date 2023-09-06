@@ -1,0 +1,73 @@
+﻿@model HocPhi.Models.HeHoc
+@{
+    ViewBag.Title = "ThemHeHoc";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-lg-11">
+
+        
+
+        @using (Html.BeginForm("ThemHeHoc","Admin",FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            
+        
+            <div class="col-lg-6" style="margin-left:250px;">
+
+                <div class="card" style="background:#e9e9e9">
+                    <div class="card-header">
+                        <strong>Thêm Hệ Học</strong>
+                       
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="card-body card-block">
+                        <div class="form-group">
+                            <label for="validationCustom03">Mã Hệ Học <span style="color:#ff0000">*</span> </label>
+
+                            @Html.EditorFor(model => model.MaHeHoc, new { htmlAttributes = new { @class = "form-control", @id = "validationCustom03" } })
+                            @Html.ValidationMessageFor(model => model.MaHeHoc, "", new { @class = "text-danger" })
+
+                        </div>
+                        <div class="form-group ">
+                            <label for="inputPassword4">Tên Hệ Học <span style="color:#ff0000">*</span></label>
+                            @Html.EditorFor(model => model.TenHeHoc, new { htmlAttributes = new { @class = "form-control" } })
+                            @*@Html.ValidationMessageFor(model => model.TenHeHoc, "", new { @class = "text-danger" })*@
+                            @Html.ValidationMessageFor(model => model.TenHeHoc, "", new { @class = "text-danger" })
+
+                        </div>
+                        <div class="form-group ">
+                            <label for="inputEmail4">Học Phí <span style="color:#ff0000">*</span></label>
+                            @Html.EditorFor(model => model.HocPhi, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.HocPhi, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group ">
+                            <label for="inputPassword4">Ghi Chú</label>
+                            @Html.EditorFor(model => model.GhiChu, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.GhiChu, "", new { @class = "text-danger" })
+                        </div>
+                        <style>
+                            .form-group .form-control {
+                                padding-left: 7px;
+                            }
+                        </style>
+                        <button style="float:right;" type="submit" class="btn btn-primary ">Thêm</button>
+
+                    </div>
+
+                </div>
+            </div>
+                        
+
+                    
+               
+            
+        }
+
+
+        </div>
+
+</div>
+
+

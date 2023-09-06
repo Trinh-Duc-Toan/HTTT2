@@ -1,0 +1,165 @@
+﻿@*@model IEnumerable<HocPhi.Models.BienLai>*@
+@using HocPhi.Models;
+@{
+    Layout = null;
+    bool _trangthai;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>PhieuThu</title>
+    <link href="~/Content/main.css" rel="stylesheet" />
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
+</head>
+<body style="margin-top: 20px;">
+   
+<div class="container">
+
+    <div class="row">
+        <div class="well col-xs-10 col-sm-10 col-md-6 col-xs-offset-1 col-sm-offset-1 col-md-offset-3">
+            <div class="row">
+                <div class="text-center">
+                    <h1 style="margin-left:120px;">Phiếu Thu Học Phí </h1>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-6 col-sm-6 col-md-6">
+                    <address>
+
+                        <strong>Trường Mầm Non Sammy</strong>
+                        @foreach (var item in ViewBag.bienlai)
+                        {
+                            <br>
+                            <h5 style="">Họ và Tên: @item.HocSinh.TenHocSinh</h5>
+                            <h5>Tên Lớp: @item.HocSinh.Lop.TenLop </h5>
+                            <h5>Hệ Học: @item.HocSinh.HeHoc.TenHeHoc </h5>
+                        }
+                    </address>
+                </div>
+                <div class="col-xs-6 col-sm-6 col-md-6 text-right">
+                    @foreach (var item in ViewBag.bienlai)
+                    {
+                        <p>
+                            <em> @Convert.ToDateTime(item.NgayNop).ToString("dd/MM/yyyy")</em>
+                        </p>
+                       
+                    }
+                    </div>
+                        
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Nội Dung</th>
+                            <th>Số Lượng</th>
+                            <th class="text-center">Đơn Giá</th>
+                            <th class="text-center">Thành Tiền</th>
+                            <th class="text-center">Ghi Chú</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in ViewBag.bienlai)
+                        {
+                            HocPhiEntities db = new HocPhiEntities();
+                            //   String getItem = item.HocSinh.MaHocSinh;
+                            String get = item.HocSinh.MaHocSinh;
+
+                            var ddanhlist = db.DiemDanhs
+                                .Where(n => n.HocSinh == get)
+                                .Where(n => n.TrangThaiDiemDanh == false).ToList();
+
+                            int soluotddanh = 0;
+
+                            if (ddanhlist != null)
+                            {
+                                foreach (var item3 in ddanhlist)
+                                {
+
+                                    if (int.Parse(DateTime.Now.ToString("MM")) - int.Parse(item3.NgayDiemDanh.ToString("MM")) == 1)
+                                    {
+                                        soluotddanh++;
+                                    }
+                                }
+                            }
+
+                            if (item.TrangThai != null)
+                            {
+                                _trangthai = (bool)item.TrangThai;
+
+                            }
+                            else
+                            {
+                                _trangthai = false;
+                            }
+
+
+                            var ngaydky = @Convert.ToDateTime(item.HocSinh.NgayDangKy).ToString("MM"); //cai cho nay sao lai la ngay dang ky m, ko hieu, phai la ngay nop moi hop ly chu.. z m sua73 lai thu di, cung z hahaa
+                            var ngayhtai = @Convert.ToDateTime(DateTime.Now).ToString("MM");
+
+                            int dky = int.Parse(ngaydky);
+                            int htai = int.Parse(ngayhtai);
+                            int tam = htai - dky;
+
+                            int hientai = int.Parse(DateTime.Now.ToString("MM"));
+
+
+                            var ddanh = db.DiemDanhs
+                            .Where(n => n.HocSinh == get)
+                            .Where(n => n.TrangThaiDiemDanh == false)
+                            .Count();
+
+                            double tienthang = item.TienAn1thang;
+                            double tienhp = item.HocSinh.HeHoc.HocPhi;
+                            double tong = tienhp + (tienthang - (50000 * soluotddanh));
+
+                            double tienanthang = 50000 * soluotddanh;
+                            <tr>
+                                <td class="col-md-9">Học Phí</td>
+                                <td class="col-md-1" style="text-align: center"> 1 </td>
+                                <td class="col-md-1 text-center">@item.HocSinh.HeHoc.HocPhi</td>
+                                <td class="col-md-1 text-center">@item.HocSinh.HeHoc.HocPhi</td>
+                            </tr>
+                            <tr>
+                                <td class="col-md-9">Tiền ăn tháng</td>
+                                <td class="col-md-1" style="text-align: center"> 26 </td>
+                                <td class="col-md-1 text-center">@item.TienAn1ngay</td>
+                                <td class="col-md-1 text-center">@item.TienAn1thang</td>
+                            </tr>
+                            <tr>
+
+                                <td class="col-md-9">Tiền ăn tháng trước</td>
+                                <td class="col-md-1" style="text-align: center"> @soluotddanh </td>
+                                <td class="col-md-1 text-center">@item.TienAn1ngay</td>
+                                <td class="col-md-1 text-center">@tienanthang</td>
+                                <td class="col-md-1 text-center">(Khoảng trừ)</td>
+
+                            </tr>
+                            <tr>
+                                <td>
+                                    <a onclick="window.print()" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="In"><em class="fas fa-print"></em></a>
+                                </td>
+                                <td></td>
+                                <td class="text-right"><h4><strong>Tổng: </strong></h4></td>
+                                <td class="text-center text-danger"><h4><strong>@String.Format("{0:#,##0} VND", tong)  </strong></h4></td>
+
+                            </tr>
+                        }
+                    </tbody>
+                    </table>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+   
+</body>
+</html>

@@ -1,0 +1,83 @@
+﻿
+@{
+    ViewBag.Title = "KQ";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    bool _trangthai;
+}
+
+@*@foreach (var item in ViewBag.CheckResult)
+{
+    if (item.TrangThai != null)
+    {
+        _trangthai = (bool)item.TrangThai;
+
+    }
+    else
+    {
+        _trangthai = false;
+    }*@
+    @*<tr>
+
+            <td>@item.MaBienLai</td>
+            <td>@item.HocSinh.HeHoc.MaHeHoc</td>
+            <td>@item.HocSinh.Lop.TenLop</td>
+            <td>@item.HocSinh.MaHocSinh</td>
+            <td>@item.HocSinh.HeHoc.HocPhi</td>
+            <td>
+                @Html.CheckBoxFor(modelItem => _trangthai)
+            </td>
+
+
+        </tr>*@
+    <table id="dtBasicExample" class="table table-hover table-fixed" cellspacing="0" width="100%">
+        <thead class="thead-light">
+            <tr>
+
+                <th>Mã Biên Lai</th>
+                <th>Mã Hệ Học</th>
+                <th>Tên Lớp</th>
+                <th>Mã Học Sinh</th>
+                <th>Học Phí</th>
+                <th>Tiền Ăn 1 tháng</th>
+                <th>Ngày Nộp</th>
+                <th>Trạng Thái</th>
+            </tr>
+
+        </thead>
+        <tbody>
+            @foreach (var item in ViewBag.CheckResult)
+            {
+
+               
+                if (item.TrangThai != null)
+                {
+                    _trangthai = (bool)item.TrangThai;
+
+                }
+                else
+                {
+                    _trangthai = false;
+                }
+                
+                <tr>
+
+                    <td>@item.MaBienLai</td>
+                    <td>@item.HocSinh.HeHoc.MaHeHoc</td>
+                    <td>@item.HocSinh.Lop.TenLop</td>
+                    <td>@item.HocSinh.MaHocSinh</td>
+                    <td>@item.HocSinh.HeHoc.HocPhi</td>
+                    <td>@item.TienAn1thang</td>
+                    <td> @Convert.ToDateTime(item.NgayNop).ToString("dd/MM/yyyy")</td>                
+                    <td>
+                        @Html.CheckBoxFor(modelItem => _trangthai)
+                    </td>
+                  
+
+
+                </tr>
+
+
+            }
+
+        </tbody>
+    </table>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="9f3b14d5527f45d9ae7a17df68ded1e3" Name="Diagram1">
+        <EntityTypeShape EntityType="HocPhiModel.Account" Width="1.5" PointX="3" PointY="4.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="HocPhiModel.BienLai" Width="1.5" PointX="10.5" PointY="3.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="HocPhiModel.DiemDanh" Width="1.5" PointX="10.5" PointY="6.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="HocPhiModel.GiaoVien" Width="1.5" PointX="0.75" PointY="4.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="HocPhiModel.HeHoc" Width="1.5" PointX="3.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HocPhiModel.HocSinh" Width="1.5" PointX="8.25" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="HocPhiModel.Lop" Width="1.5" PointX="6" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="HocPhiModel.sysdiagram" Width="1.5" PointX="0.75" PointY="1.25" IsExpanded="true" />
+        <AssociationConnector Association="HocPhiModel.FK_Admin_GiaoVien" ManuallyRouted="false" />
+        <AssociationConnector Association="HocPhiModel.FK_BienLai_HocSinh" ManuallyRouted="false" />
+        <AssociationConnector Association="HocPhiModel.FK_DiemDanh_HocSinh" ManuallyRouted="false" />
+        <AssociationConnector Association="HocPhiModel.FK_Lop_GiaoVien" ManuallyRouted="false" />
+        <AssociationConnector Association="HocPhiModel.FK_HocSinh_HeHoc" ManuallyRouted="false" />
+        <AssociationConnector Association="HocPhiModel.FK_Lop_HeHoc" ManuallyRouted="false" />
+        <AssociationConnector Association="HocPhiModel.FK_HocSinh_Lop" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -1,0 +1,70 @@
+﻿@model HocPhi.Models.Account
+
+@{
+    ViewBag.Title = "ThemTK";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-lg-11">
+        @using (Html.BeginForm("ThemTK", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                        
+        {
+
+                        @Html.AntiForgeryToken()
+                        <div class="col-lg-6" style="margin-left:250px;">
+                <div class="card" style="background:#e9e9e9">
+                    <div class="card-header">
+                        <strong>Thêm Tài Khoản</strong>
+                    </div>
+                    <div class="card-body card-block">
+                        <div class="form-group">
+                            <label for="inputEmail4">Mã Giáo Viên </label>
+                            @Html.EditorFor(model => model.MaGiaoVien, new { htmlAttributes = new { @readonly = "readonly", @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.MaGiaoVien, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group ">
+                            <label for="inputPassword4">Email</label>
+                            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group ">
+                            <label for="inputPassword4">Mật Khẩu</label>
+                            @Html.EditorFor(model => model.Password, new { htmlAttributes = new { type = "password", @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                        </div>
+                       <div class="form-group ">
+                            <label for="inputPassword4">Mật Khẩu</label>
+                           <input type="file" name="abc" />
+                            @Html.ValidationMessageFor(model => model.HinhAnh, "", new { @class = "text-danger" })
+                        </div>
+                        <style>
+                            .form-group .form-control {
+                                padding-left: 7px;
+                            }
+                        </style>
+                        <script>
+                            $(document).ready(function () {
+                                $("#MaGiaoVien").change(function () {
+                                    $.get("/Admin/Admin/GetStateListGV", { MaGiaoVien: $("#MaGiaoVien").val() }, function (data) {
+                                        $("#TenGiaoVien").empty();
+                                        console.log(data);
+                                        $.each(data, function (index, row) {
+                                            $("#TenGiaoVien").append("<option value='" + row.MaGiaoVien + "'>" + row.TenGiaoVien + "</option>")
+                                        });
+                                    });
+                                })
+
+                            });
+                        </script>
+                        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js"></script>
+                        <button style="float:right;" type="submit" class="btn btn-primary">Thêm</button>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+</div>

@@ -1,0 +1,73 @@
+﻿
+@{
+    ViewBag.Title = "DiemDanh";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Thống Kê Điểm Danh</h2>
+<form method="POST" id="formfilter">
+    <label>Chọn lớp </label>
+    <select id="classroom"  name="MaLop">
+        <option selected="selected" value="">Chọn một lớp</option>
+    </select>
+
+
+    <div class='input-group date' id='datetimepicker2'>
+        <label> Chọn ngày </label>
+        <input type='text' class="form-control" name="NgayDiemDanh" style="max-width: 200px;margin:5px; "/>
+        <span class="input-group-addon">
+            <span class="fas fa-calendar"></span>
+        </span>
+    </div>
+    <br />
+    <input type="submit" class="button" value="Xem Danh Sách" id="formbtn" />
+</form>
+<div id="result">
+
+</div>
+
+@section datetimepicker {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#datetimepicker2').datetimepicker({
+                locale: 'vi-vn',
+                format: 'DD/MM/YYYY' 
+            });
+            $.ajax({
+                type: "GET",
+                url: "/Admin/ThongKe/DiemDanh",
+                dataType: 'json',
+                success: function (response) {
+                    $.each(response, function (index, value) {
+                        $('#classroom').append(`<option value="` + value.IDLop + `"` + `data-datetime='` + moment.utc(value.Mindate)+ `'>` + value.TenLopHoc + `</option >`);
+                    });
+                }
+            });
+            $('#classroom').change(function (e) {
+                e.preventDefault();
+                var selecteditem = $(this).children("option:selected").val();
+                if (selecteditem != "") {
+                    var minTime = $(this).children('option:selected').attr('data-datetime');
+                    var _minDate = new Date(Number(minTime));
+                    $('#datetimepicker2').data("DateTimePicker").clear();
+                    $('#datetimepicker2').data("DateTimePicker").minDate(_minDate).maxDate(new Date());
+ 
+                }
+            });
+            $('#formbtn').click(function (e) {
+                e.preventDefault();
+                var formdata = $("#formfilter").serialize();
+                $.ajax({
+                    type: "POST",
+                    url: "/Admin/ThongKe/LichSuDiemDanh",
+                    data: formdata,
+                    dataType: "html",
+                    success: function (response) {
+                        $('#result').empty();
+                        $('#result').append(response);
+                    }
+                });
+            });
+        });
+    </script>
+}

@@ -1,0 +1,40 @@
+﻿@model IEnumerable<HocPhi.Models.DiemDanh>
+
+@{
+    ViewBag.Title = "Example";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Example</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.TrangThaiDiemDanh)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.HocSinh1.TenHocSinh)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.TrangThaiDiemDanh)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.HocSinh1.TenHocSinh)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+        </td>
+    </tr>
+}
+
+</table>
